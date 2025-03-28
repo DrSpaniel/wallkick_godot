@@ -6,12 +6,27 @@ const RUN_DECEL = 12
 
 const JUMP_VELOCITY = -290
 
+const WALL_KICK_SPEED = 200  # Horizontal speed when kicking off a wall
+
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+
 
 func _process(delta: float) -> void:
 	
+	#print(velocity.x)
+	
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+		
+		if is_on_wall():
+			if Input.is_action_just_pressed("ui_accept"): #when the player is jumping and touching a wall, then jumps again
+				print("beep!")
+				var collision = get_last_slide_collision()
+				if collision:		#if the player hits the wall
+					var wall_normal = collision.get_normal()	#negates the need to care about whether the player is kicking from left or right.
+					velocity.x = wall_normal.x * WALL_KICK_SPEED
+					velocity.y = JUMP_VELOCITY * 0.8  #makes the kick weaker than an actual jump
+				
 	
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
