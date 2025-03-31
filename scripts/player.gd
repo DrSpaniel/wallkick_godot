@@ -3,10 +3,10 @@ extends CharacterBody2D
 
 const RUN_SPEED = 120
 const RUN_DECEL = 12
-
-const JUMP_VELOCITY = -290
-
+const JUMP_SPEED = -290
+const BOUNCE_SPEED = JUMP_SPEED * 1.1
 const WALL_KICK_SPEED = 400  # Horizontal speed when kicking off a wall
+const PUSH_FORCE = 80
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -14,7 +14,7 @@ var kickCount = 0 #used to only allow 2 kicks per wall until you touch ground
 
 var just_wallkicked := false  # Add this variable at the top
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		#print("not on floor")
 		velocity += get_gravity() * delta
@@ -27,17 +27,18 @@ func _process(delta: float) -> void:
 				if kickCount < 9:		#prevents cheating cause im a sore loser
 					var collision = get_last_slide_collision()
 					if collision:		#if the player hits the wall
-						var wall_normal = collision.get_normal()	#negates the need to care about whether the player is kicking from left or right.
-						velocity.x = wall_normal.x * WALL_KICK_SPEED
-						velocity.y = JUMP_VELOCITY * 1.1 #makes the kick weaker than an actual jump
+						var wall_normal = collision.get_normal()	#negatesthe need to care about whether the player is kicking from left or right.
+						velocity.x = wall_normal.x * WALL_KICK_SPEED 
+						velocity.y = JUMP_SPEED * 1.1 #makes the kick weaker than an actual jump
 						just_wallkicked = true
 				kickCount = kickCount+1
 				
-	if is_on_floor():
+	else:
 		kickCount = 0		#resets kick count
 		#print("floor")
+		
 	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		velocity.y = JUMP_SPEED
 	
 	var direction = Input.get_axis("left", "right")
 	_update_animations(direction)
@@ -67,10 +68,15 @@ func _process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, RUN_SPEED*direction, RUN_DECEL)
 		# If we are not moving.
 	else:
-			# Decelerate to 0.
+		# Decelerate to 0.
 		velocity.x = move_toward(velocity.x, 0, RUN_DECEL)
 	
 	move_and_slide()
+	
+func bounce_player():
+	velocity.y = BOUNCE_SPEED
+	# I have to turn on a bounce bool
+	pass
 	
 # Function that handles the flipping of the sprite based on direction.
 func sprite_flip(direction):
@@ -84,21 +90,17 @@ func _update_animations(direction: float) -> void:
 	if just_wallkicked:
 		animated_sprite.play("wallkick")
 		
-		print("beep!")
 		just_wallkicked = false  # Reset immediately
 		return  # Exit early to prioritize this animation
 	else:
 			# 2. Jumping or falling
 		if not is_on_floor():
-			print("asdasdasd!")
 			#animated_sprite.play("jump")
 			return
-
-
-
+			
 	# 3. Moving on ground
 	if direction != 0:
-		print("boop!")
+		# print("boop!")
 		animated_sprite.play("walk")
 	# 4. Idle
 	else:

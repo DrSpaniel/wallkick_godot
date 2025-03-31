@@ -132,7 +132,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v0iea"]
-size = Vector2(13, 17.3155)
+size = Vector2(13, 15.2688)
 
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(29.325, 30.7816)
@@ -140,13 +140,11 @@ collision_mask = 15
 script = ExtResource("1_cvnsp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(1, -12)
+position = Vector2(1.0341, -12)
 sprite_frames = SubResource("SpriteFrames_x3wgy")
-animation = &"wallkick"
-frame = 2
-frame_progress = 1.0
+animation = &"idle"
+autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, -8.75523)
-scale = Vector2(1, 1)
+position = Vector2(1, -7.7319)
 shape = SubResource("RectangleShape2D_v0iea")

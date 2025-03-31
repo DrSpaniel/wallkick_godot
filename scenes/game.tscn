@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=4 uid="uid://byhnt703gb2if"]
+[gd_scene load_steps=7 format=4 uid="uid://byhnt703gb2if"]
 
 [ext_resource type="PackedScene" uid="uid://bv77ag3x6sm0j" path="res://scenes/player.tscn" id="1_uwrxv"]
 [ext_resource type="Texture2D" uid="uid://cunijb4py5ys6" path="res://sprites/world_tileset.png" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://bm0veb1h8ek8o" path="res://scenes/bounce_block.tscn" id="4_lbhrr"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2poj3"]
 
@@ -157,7 +158,8 @@ texture = ExtResource("2_yqjtg")
 3:15/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_lbhrr"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 2
+physics_layer_0/collision_mask = 15
 sources/0 = SubResource("TileSetAtlasSource_lnu2h")
 
 [node name="Game" type="Node2D"]
@@ -171,14 +173,18 @@ shape = SubResource("WorldBoundaryShape2D_2poj3")
 [node name="Player" parent="." instance=ExtResource("1_uwrxv")]
 position = Vector2(160, 36)
 scale = Vector2(1, 1)
-collision_layer = 2
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(3, -7)
-zoom = Vector2(6, 6)
+zoom = Vector2(4, 4)
 
 [node name="Tilesets" type="Node" parent="."]
 
 [node name="Blocks" type="TileMapLayer" parent="Tilesets"]
 tile_map_data = PackedByteArray("AAAJAAMAAAAAAAAAAAAKAAMAAAAAAAAAAAALAAMAAAAAAAAAAAAJAAQAAAABAAEAAAAKAAQAAAABAAEAAAALAAQAAAABAAEAAAALAAUAAAABAAEAAAAKAAUAAAABAAEAAAAJAAUAAAABAAEAAAAEAAMAAAAAAAAAAAAFAAMAAAAAAAAAAAAGAAMAAAAAAAAAAAAHAAMAAAAAAAAAAAAIAAMAAAAAAAAAAAAMAAMAAAAAAAAAAAANAAMAAAAAAAAAAAAOAAMAAAAAAAAAAAAPAAMAAAAAAAAAAAAQAAMAAAAAAAAAAAARAAMAAAAAAAAAAAASAAMAAAAAAAAAAAATAAMAAAAAAAAAAAAUAAMAAAAAAAAAAAAVAAMAAAAAAAAAAAAWAAMAAAAAAAAAAAAXAAMAAAAAAAAAAAAYAAMAAAAAAAAAAAAZAAMAAAAAAAAAAAAaAAMAAAAAAAAAAAAbAAMAAAAAAAAAAAAcAAMAAAAAAAAAAAAdAAMAAAAAAAAAAAAeAAMAAAAAAAAAAAAfAAMAAAAAAAAAAAAgAAMAAAAAAAAAAAAhAAMAAAAAAAAAAAAiAAMAAAAAAAAAAAAjAAMAAAAAAAAAAAAkAAMAAAAAAAAAAAAlAAMAAAAAAAAAAAAmAAMAAAAAAAAAAAAnAAMAAAAAAAAAAAAoAAMAAAAAAAAAAAApAAMAAAAAAAAAAAAqAAMAAAAAAAAAAAArAAMAAAAAAAAAAAAsAAMAAAAAAAAAAAAtAAMAAAAAAAAAAAAuAAMAAAAAAAAAAAAvAAMAAAAAAAAAAAAwAAMAAAAAAAAAAAAxAAMAAAAAAAAAAAAQAAAAAAACAAEAAAAQAP//AAACAAEAAAAQAP7/AAACAAEAAAAQAP3/AAACAAEAAAAQAPz/AAACAAEAAAAUAAEAAAACAAEAAAAVAP7/AAACAAEAAAAWAP7/AAACAAEAAAAZAPn/AAACAAEAAAAZAPr/AAACAAEAAAAZAPv/AAACAAEAAAAZAPz/AAACAAEAAAAVAPj/AAACAAEAAAAVAPn/AAACAAEAAAAaAPb/AAACAAEAAAA=")
 tile_set = SubResource("TileSet_lbhrr")
+
+[node name="BounceBlocks" type="Node" parent="."]
+
+[node name="Bounce Block" parent="BounceBlocks" instance=ExtResource("4_lbhrr")]
+position = Vector2(216, 39)
