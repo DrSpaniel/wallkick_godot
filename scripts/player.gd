@@ -73,11 +73,15 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 	
-func bounce_player(rc_up, rc_left):
+func bounce_player(rc_up, rc_left, rc_right, rc_down):
 	if rc_up:
 		velocity.y = BOUNCE_SPEED
 	if rc_left:
 		velocity.x = BOUNCE_SPEED
+	if rc_right:
+		velocity.x = -BOUNCE_SPEED
+	if rc_down:
+		velocity.y = -BOUNCE_SPEED
 
 	
 # Function that handles the flipping of the sprite based on direction.

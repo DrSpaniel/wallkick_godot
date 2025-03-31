@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dgjtvf50eoxj7" path="res://scripts/bounce_area.gd" id="2_q6f6w"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j86bj"]
-size = Vector2(22.5352, 20.5282)
+size = Vector2(22.5352, 20.1233)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q6f6w"]
 size = Vector2(20, 19.3838)
@@ -12,6 +12,7 @@ size = Vector2(20, 19.3838)
 [node name="Bounce Block" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 15
+gravity_scale = 0.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.0376139, 0.0375672)
@@ -21,19 +22,39 @@ texture = ExtResource("1_ah6uf")
 script = ExtResource("2_q6f6w")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(3.27826e-07, 0)
+position = Vector2(-3.57628e-07, 0.143756)
 scale = Vector2(0.71, 0.71)
 shape = SubResource("RectangleShape2D_j86bj")
+
+[node name="RayCast2D Up 1" type="RayCast2D" parent="Area2D"]
+target_position = Vector2(-7, -8)
+
+[node name="RayCast2D Up 2" type="RayCast2D" parent="Area2D"]
+target_position = Vector2(7, -8)
+
+[node name="RayCast2D Left 1" type="RayCast2D" parent="Area2D"]
+target_position = Vector2(-9, -4)
+
+[node name="RayCast2D Left 2" type="RayCast2D" parent="Area2D"]
+target_position = Vector2(-9, 5)
+
+[node name="RayCast2D Right 1" type="RayCast2D" parent="Area2D"]
+target_position = Vector2(9, -4)
+
+[node name="RayCast2D Right 2" type="RayCast2D" parent="Area2D"]
+position = Vector2(-3.57628e-07, 0.143756)
+scale = Vector2(0.71, 0.71)
+target_position = Vector2(12.6761, 6.83978)
+
+[node name="RayCast2D Down 1" type="RayCast2D" parent="Area2D"]
+target_position = Vector2(-5, 8)
+
+[node name="RayCast2D Down 2" type="RayCast2D" parent="Area2D"]
+target_position = Vector2(6, 8)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.11875)
 scale = Vector2(0.71, 0.71)
 shape = SubResource("RectangleShape2D_q6f6w")
-
-[node name="RayCast2D Up" type="RayCast2D" parent="."]
-target_position = Vector2(0, -8)
-
-[node name="RayCast2D Left" type="RayCast2D" parent="."]
-target_position = Vector2(-9, 0)
 
 [connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
