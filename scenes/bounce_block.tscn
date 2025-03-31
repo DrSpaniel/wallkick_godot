@@ -30,4 +30,10 @@ position = Vector2(0, 0.11875)
 scale = Vector2(0.71, 0.71)
 shape = SubResource("RectangleShape2D_q6f6w")
 
+[node name="RayCast2D Up" type="RayCast2D" parent="."]
+target_position = Vector2(0, -8)
+
+[node name="RayCast2D Left" type="RayCast2D" parent="."]
+target_position = Vector2(-9, 0)
+
 [connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
