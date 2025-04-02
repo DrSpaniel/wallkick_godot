@@ -4,11 +4,11 @@ extends CharacterBody2D
 const RUN_SPEED = 120
 const RUN_DECEL = 12
 const JUMP_SPEED = -290
-const BOUNCE_SPEED = JUMP_SPEED * 1.1
+const BOUNCE_SPEED = JUMP_SPEED * 1.5
 const WALL_KICK_SPEED = 400  # Horizontal speed when kicking off a wall
 const PUSH_FORCE = 80
 
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+# var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var kickCount = 0 #used to only allow 2 kicks per wall until you touch ground
 
