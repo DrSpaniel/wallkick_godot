@@ -1,11 +1,11 @@
 extends CharacterBody2D
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
-const RUN_SPEED = 120
-const RUN_DECEL = 12
+var RUN_SPEED = 150
+var RUN_DECEL = 30
 const JUMP_SPEED = -290
 const BOUNCE_SPEED = JUMP_SPEED * 1.5
-const WALL_KICK_SPEED = 400  # Horizontal speed when kicking off a wall
+const WALL_KICK_SPEED = 400 # Horizontal speed when kicking off a wall
 const PUSH_FORCE = 80
 
 # var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -19,17 +19,20 @@ func _physics_process(delta: float) -> void:
 		#print("not on floor")
 		velocity += get_gravity() * delta
 		
-		if is_on_wall():
-			if Input.is_action_just_pressed("jump"): #when the player is jumping and touching a wall, then jumps again
-				#print("beep!")
-				
+		
+		
+		if Input.is_action_just_pressed("jump"): #when the player is jumping and touching a wall, then jumps again
+			
+			
+			if is_on_wall():
+							#print("beep!")
 				print(kickCount)
-				if kickCount < 9:		#prevents cheating cause im a sore loser
+				if kickCount < 5:		#prevents cheating cause im a sore loser
 					var collision = get_last_slide_collision()
 					if collision:		#if the player hits the wall
 						var wall_normal = collision.get_normal()	#negatesthe need to care about whether the player is kicking from left or right.
 						velocity.x = wall_normal.x * WALL_KICK_SPEED 
-						velocity.y = JUMP_SPEED * 1.1 #makes the kick weaker than an actual jump
+						velocity.y = JUMP_SPEED * 1.3 #makes the kick weaker than an actual jump
 						just_wallkicked = true
 				kickCount = kickCount+1
 				
@@ -55,18 +58,21 @@ func _physics_process(delta: float) -> void:
 				#
 			#else:
 				#animated_sprite.play("jump")	#when not wallkicking and just jumping.
-		##else:
+		###else:
 			##animated_sprite.play("walk")
 	##
 
 	
 			#play anims
-
-	
 	if direction:
-		# Accel/decel to normal speed.
-		velocity.x = move_toward(velocity.x, RUN_SPEED*direction, RUN_DECEL)
-		# If we are not moving.
+		var current_speed = RUN_SPEED
+	
+		# Apply increased speed when in the air
+		if not is_on_floor():
+			current_speed *= 1.5  # Increase speed by 50% in air (adjust as needed)
+			RUN_DECEL = 90
+		velocity.x = move_toward(velocity.x, current_speed * direction, RUN_DECEL)
+			# If we are not moving.
 	else:
 		# Decelerate to 0.
 		velocity.x = move_toward(velocity.x, 0, RUN_DECEL)
