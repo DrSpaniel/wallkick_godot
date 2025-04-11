@@ -1,5 +1,7 @@
 extends CharacterBody2D
+
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var grapple_controller: Node2D = $GrappleController
 
 var RUN_SPEED = 150
 var RUN_DECEL = 30
@@ -41,11 +43,11 @@ func _physics_process(delta: float) -> void:
 		kickCount = 0		#resets kick count
 		#print("floor")
 		
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	if Input.is_action_just_pressed("jump") and (is_on_floor() || grapple_controller.launched):
 		velocity.y = JUMP_SPEED
 	
 	var direction = Input.get_axis("left", "right")
-	_update_animations(direction)
+	update_animations(direction)
 	sprite_flip(direction)
 	
 	#if direction == 0:
@@ -63,8 +65,6 @@ func _physics_process(delta: float) -> void:
 			##animated_sprite.play("walk")
 	##
 
-	
-			#play anims
 	if direction:
 		# Apply increased speed when in the air
 		if not is_on_floor():
@@ -96,7 +96,7 @@ func sprite_flip(direction):
 	elif direction < 0:
 		animated_sprite.flip_h = true
 
-func _update_animations(direction: float) -> void:
+func update_animations(direction: float) -> void:
 	# 1. Highest priority: Wallkick (plays once per kick)
 	if just_wallkicked:
 		animated_sprite.play("wallkick")
