@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 var RUN_SPEED = 150
 var RUN_DECEL = 30
+var AIR_DECEL = 90
 const JUMP_SPEED = -290
 const BOUNCE_SPEED = JUMP_SPEED * 1.5
 const WALL_KICK_SPEED = 400 # Horizontal speed when kicking off a wall
@@ -15,14 +16,13 @@ var kickCount = 0 #used to only allow 2 kicks per wall until you touch ground
 var just_wallkicked := false  # Add this variable at the top
 
 func _physics_process(delta: float) -> void:
+	
 	if not is_on_floor():
 		#print("not on floor")
 		velocity += get_gravity() * delta
 		
 		
-		
 		if Input.is_action_just_pressed("jump"): #when the player is jumping and touching a wall, then jumps again
-			
 			
 			if is_on_wall():
 							#print("beep!")
@@ -70,8 +70,9 @@ func _physics_process(delta: float) -> void:
 		# Apply increased speed when in the air
 		if not is_on_floor():
 			current_speed *= 1.5  # Increase speed by 50% in air (adjust as needed)
-			RUN_DECEL = 90
-		velocity.x = move_toward(velocity.x, current_speed * direction, RUN_DECEL)
+			velocity.x = move_toward(velocity.x, current_speed * direction, AIR_DECEL)
+		else:
+			velocity.x = move_toward(velocity.x, current_speed * direction, RUN_DECEL)
 			# If we are not moving.
 	else:
 		# Decelerate to 0.
