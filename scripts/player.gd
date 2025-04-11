@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 var RUN_SPEED = 150
 var RUN_DECEL = 30
+var AIR_SPEED = RUN_SPEED * 1.5
 var AIR_DECEL = 90
 const JUMP_SPEED = -290
 const BOUNCE_SPEED = JUMP_SPEED * 1.5
@@ -65,15 +66,12 @@ func _physics_process(delta: float) -> void:
 	
 			#play anims
 	if direction:
-		var current_speed = RUN_SPEED
-	
 		# Apply increased speed when in the air
 		if not is_on_floor():
-			current_speed *= 1.5  # Increase speed by 50% in air (adjust as needed)
-			velocity.x = move_toward(velocity.x, current_speed * direction, AIR_DECEL)
+			velocity.x = move_toward(velocity.x, AIR_SPEED * direction, AIR_DECEL)
 		else:
-			velocity.x = move_toward(velocity.x, current_speed * direction, RUN_DECEL)
-			# If we are not moving.
+			velocity.x = move_toward(velocity.x, RUN_SPEED * direction, RUN_DECEL)
+	# If we are not moving.
 	else:
 		# Decelerate to 0.
 		velocity.x = move_toward(velocity.x, 0, RUN_DECEL)
