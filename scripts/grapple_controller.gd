@@ -9,8 +9,11 @@ extends Node2D
 # Grappling hook will use hook's law.
 # These variables represent that.
 @export var rest_length = 2.0
-@export var stiffness = 10.0
+@export var stiffness = 30.0
 @export var damping = 2.0
+
+@export var max_launch_length = 100.0
+@export var max_hold_length = 200.0
 
 @onready var ray_cast: RayCast2D = $RayCast2D
 @onready var player: CharacterBody2D = $".."
@@ -47,6 +50,11 @@ func retract():
 func handle_grapple(delta):
 	var target_dir = player.global_position.direction_to(target)
 	var target_dist = player.global_position.distance_to(target)
+	
+	# This restricts the length of the rope.
+	if target_dist >= max_launch_length:
+		retract()
+		return
 	
 	var displacement = target_dist - rest_length
 	
