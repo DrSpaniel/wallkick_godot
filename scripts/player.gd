@@ -21,7 +21,6 @@ var just_wallkicked := false  # Add this variable at the top
 func _physics_process(delta: float) -> void:
 	
 	if not is_on_floor():
-		#print("not on floor")
 		velocity += get_gravity() * delta
 		
 		
@@ -49,21 +48,6 @@ func _physics_process(delta: float) -> void:
 	var direction = Input.get_axis("left", "right")
 	update_animations(direction)
 	sprite_flip(direction)
-	
-	#if direction == 0:
-		#animated_sprite.play("idle")		#if ur not moving, play idle
-	#else:		#for when player moves
-		#if Input.is_action_just_pressed("jump"):
-			#if not is_on_floor():
-				#if is_on_wall():
-					#if kickCount < 9:
-						#animated_sprite.play("wallkick")		#all this bullshit so you only play wallkick when you can wallkick.
-				#
-			#else:
-				#animated_sprite.play("jump")	#when not wallkicking and just jumping.
-		###else:
-			##animated_sprite.play("walk")
-	##
 
 	if direction:
 		# Apply increased speed when in the air

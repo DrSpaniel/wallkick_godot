@@ -53,9 +53,10 @@ func handle_grapple(delta):
 		var vel_dot = player.velocity.dot(target_dir)
 		var damping = -damping * vel_dot * target_dir
 		
-		force = spring_force * damping
+		force = spring_force + damping
 	
 	player.velocity += force * delta
+	print("In grap_contr.handle_grapple(): player.vel = ", player.velocity)
 	update_rope()
 
 # First point always centered on the player.
